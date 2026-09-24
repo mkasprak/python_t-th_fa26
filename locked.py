@@ -11,6 +11,7 @@ SALES_TAX = [
     0.01,
 ]
 
+# 📦 A tuple stores a sequence of values that should not change.
 days_of_week = (
     "Sunday",
     "Monday",
@@ -21,6 +22,8 @@ days_of_week = (
     "Saturday",
 )
 
+# 🔗 Parallel tuples keep related data in separate one-dimensional tuples.
+# The same row index connects the state, capital, and bird across all three.
 states = (
     "Alabama",
     "Alaska",
@@ -180,6 +183,9 @@ state_birds = (
     "Western meadowlark",
 )
 
+# 🧱 A nested tuple groups each state's values into one row.
+# The outer tuple holds rows; each inner tuple has two columns:
+# column [0] is the state and column [1] is the capital.
 states_and_capitals = (
     ("Alabama", "Montgomery"),
     ("Alaska", "Juneau"),
@@ -233,7 +239,7 @@ states_and_capitals = (
     ("Wyoming", "Cheyenne"),
 )
 
-# 📊 A multi-level tuple can represent a table.
+# 📊 A three-column nested tuple represents a table of related records.
 # The outer tuple contains rows; each inner tuple contains one row's columns.
 # Each row has three columns: state [0], capital [1], and state bird [2].
 states_capitals_birds = (
@@ -289,10 +295,29 @@ states_capitals_birds = (
     ("Wyoming", "Cheyenne", "Western meadowlark"),
 )
 
+# 💡 Lists can change after creation; tuples cannot.
+months = ["Jan", "Feb"]
+print(len(months))
+print(len(days_of_week))
+
+# ⚠️ This raises an error because tuples do not have an append method.
+try:
+    days_of_week.append("Beatleday")
+except AttributeError as error:
+    print(f"Tuple error: {error}")
+
+months.append("Mar")
+print(months)
+
+# 🔁 Reassigning a name is different from changing a tuple.
+SALES_TAX = 0.02
+print(f"Sales tax: {SALES_TAX}")
+
 # 🔒 Tuples are immutable, so their items cannot be changed after creation.
-# 🔎 The first index selects the row; the second index selects the column.
-# For example, [0][1] means row 0, column 1: Alabama's capital.
-# [row][column] is the general pattern for accessing a table value.
+# 🔎 Parallel tuples use one index: states[12] and state_capitals[12]
+# refer to the same row because the data is kept in matching positions.
+# 🔎 Nested tuples use two indexes: [row][column].
+# For example, states_and_capitals[12][1] is Illinois's capital.
 location = states.index("Illinois")
 print(location)
 
