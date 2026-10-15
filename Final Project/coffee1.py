@@ -73,8 +73,10 @@ def main():
     # ▶️ main() is the "boss" function that runs the steps in order.
     # It collects results from one function and passes them into the next.
     employee = get_employee()
+    # ℹ️ info: Here we pass the employee identifier into get_order().
     order = get_order(employee)
     confirm(order, employee)
 
 
+# ▶️ Start the program by calling main().
 main()
