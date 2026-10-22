@@ -17,7 +17,17 @@ We are using stubs (`pass`) plus comments to plan the program first.
 # We use ALL CAPS for constants so they are easy to spot.
 MILK = ("Whole", "2%", "Skim", "Oat", "Soy", "Coconut", "None")
 ROAST = ("Dark", "Light", "DeCaff")
+
 # ℹ️ info: Tuples are a fixed menu of choices (we do not add/remove options while running).
+
+
+import os
+
+
+def clear_screen():
+    # Assigning to _ silences the system return code (0) in interactive shells
+    # this code I looked up on the internet and was answered by AI (gemini)
+    _ = os.system("cls" if os.name == "nt" else "clear")
 
 
 def get_employee():
@@ -29,11 +39,29 @@ def get_employee():
     #
     # 📁 Data idea (text file):
     # EmployeeNumber, Name, OfficeNumber, Extension
+    id = int(input("Please enter your ID number:  "))
+    # TODO lookup employee
+    f_name = input("Please enter your first name:  ")
+    l_name = input("Please enter your last name:  ")
+    office_nbr = input("Office to deliver to:  ")
+    extension = input("Please enter extension:  ")
+    known_allergies = input(
+        "Please enter any known food allergies or sensitivities separated by commas:  "
+    )
     #
     # ✅ Return value:
     # Return employee_id (ex: an int or string). We will use that ID to look up the full employee
     # information from the file when we need it (Week 10 file reading/writing).
-    pass
+    employee_record = {
+        "employee_nbr": id,
+        "office": office_nbr,
+        "extension": extension,
+        "f_name": f_name,
+        "l_name": l_name,
+        "allergies": known_allergies,
+    }
+
+    return employee_record
 
 
 def get_order(employee_id):
@@ -49,19 +77,57 @@ def get_order(employee_id):
     pass
 
 
-def confirm(order, employee):
-    # 🧠 STEP 3: Confirm the order details
-    # Plan:
-    # 1) Display the employee info and order info on screen.
-    #    ℹ️ info: At this stage, `employee` is the employee_id. Use it to read the full employee record from the file.
-    # 2) Show line numbers so the user can choose what to edit (ex: "1) milk", "2) roast").
-    # 3) Ask: "Is this correct? (y/n)"
+def confirm_employee(employee_record):
+    while True:
+        clear_screen()
+        # confirm employee record
+        print(f"1.  Employee Number:  {employee_record["employee_nbr"]}")
+        print(f"2.  Office Number:  {employee_record["office"]}")
+        print(f"3.  Extension:  {employee_record["extension"]}")
+        print(f"4.  First Name:  {employee_record["f_name"]}")
+        print(f"5.  Last Name:  {employee_record["l_name"]}")
+        print(f"6.  Allergies: {employee_record["allergies"]}")
+        # 3) Ask: "Is this correct? (y/n)"
+        correct = input("Is this correct? (Y/N) ").strip().upper()
+        if correct == "Y":
+            break
+        if correct != "N":
+            input("Please enter Y or N. Press Enter to continue...")
+            continue
+
+        try:
+            change = int(input("What number would you like to change? ").strip())
+        except ValueError:
+            input("Please enter a number (1-6). Press Enter to continue...")
+            continue
+
+        match change:
+            case 1:
+                while True:
+                    try:
+                        employee_nbr = int(input("New employee number: ").strip())
+                        break
+                    except ValueError:
+                        print("Employee number must be a whole number.")
+            case 2:
+                office = input("New office number: ").strip()
+            case 3:
+                extension = input("New extension: ").strip()
+            case 4:
+                f_name = input("New first name: ").strip()
+            case 5:
+                l_name = input("New last name: ").strip()
+            case 6:
+                allergies = input("New allergies: ").strip()
+            case _:
+                input("Please choose a number 1-6. Press Enter to continue...")
+
     # 4) If YES → go to print_label(order, employee).
     # 5) If NO → allow changes, then save any updates.
     #
     # 💾 Saving:
     # If anything changes, update the employee and/or order storage so it is available next time.
-    pass
+    return employee_nbr, office, extension, f_name, l_name, allergies
 
 
 def print_label(order, employee):
@@ -77,10 +143,12 @@ def print_label(order, employee):
 def main():
     # ▶️ main() is the "boss" function that runs the steps in order.
     # It collects results from one function and passes them into the next.
-    employee = get_employee()
-    # ℹ️ info: Here we pass the employee identifier into get_order().
-    order = get_order(employee)
-    confirm(order, employee)
+    clear_screen()
+    # emp_record is a dictionary
+    emp_record = get_employee()
+    emp_id = emp_record["employee_nbr"]
+    order = get_order(emp_id)
+    emp_record = confirm_employee(emp_record)
 
 
 # ▶️ Start the program by calling main().
