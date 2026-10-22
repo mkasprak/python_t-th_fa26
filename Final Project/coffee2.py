@@ -33,6 +33,8 @@ FLAVORS = (
 
 import os
 
+# TODO next class add date time stamp
+
 
 def clear_screen():
     # Assigning to _ silences the system return code (0) in interactive shells
@@ -74,7 +76,7 @@ def get_employee():
     return employee_record
 
 
-def get_order(employee_id):
+def get_order(emp_id):
     # 🧠 STEP 2: Get an order for this employee
     # Plan:
     # 1) Check if this employee has prior orders saved.
@@ -90,13 +92,16 @@ def get_order(employee_id):
             count += 1
         try:
             type = int(
-                input("Please enter the number for the type of drink you want:  ")
-            ).strip()
+                input(
+                    "Please enter the number for the type of drink you want:  "
+                ).strip()
+            )
         except ValueError:
             input(
                 f"Please enter a number (1-{DRINK_TYPE.len()}). Press Enter to continue..."
             )
             continue
+        drink = DRINK_TYPE[type - 1]
         break
 
     clear_screen()
@@ -106,15 +111,17 @@ def get_order(employee_id):
             print(f"{count}.   {size}")
             count += 1
         try:
-            size = int(
-                input("Please enter the number for the size of drink you want:  ")
-            ).strip()
+            my_size = int(
+                input(
+                    "Please enter the number for the size of drink you want:  "
+                ).strip()
+            )
         except ValueError:
             input(
                 f"Please enter a number (1-{SIZES.len()}). Press Enter to continue..."
             )
             continue
-        size = SIZES[count - 1]
+        size = SIZES[my_size - 1]
         break
 
     clear_screen()
@@ -124,15 +131,15 @@ def get_order(employee_id):
             print(f"{count}.   {milk}")
             count += 1
         try:
-            milk = int(
-                input("Please enter the number for the milk you want:  ")
-            ).strip()
+            my_milk = int(
+                input("Please enter the number for the milk you want:  ").strip()
+            )
         except ValueError:
             input(
                 f"Please enter a number (1-{MILKS.len()}). Press Enter to continue..."
             )
             continue
-        milk = MILKS[count - 1]
+        milk = MILKS[my_milk - 1]
         break
 
     clear_screen()
@@ -142,22 +149,24 @@ def get_order(employee_id):
             print(f"{count}.   {flavor}")
             count += 1
         try:
-            flavor = int(
-                input("Please enter the number for the flavor you want:  ")
-            ).strip()
+            my_flavor = int(
+                input("Please enter the number for the flavor you want:  ").strip()
+            )
         except ValueError:
             input(
                 f"Please enter a number (1-{FLAVORS.len()}). Press Enter to continue..."
             )
             continue
-        flavor = FLAVORS[count - 1]
+        flavor = FLAVORS[my_flavor - 1]
         break
 
     while True:
         try:
             pumps = int(
-                input("Please enter the number of pumps you want (ten cents each):  ")
-            ).strip()
+                input(
+                    "Please enter the number of pumps you want (ten cents each):  "
+                ).strip()
+            )
             if pumps > 10:
                 print("Ten is the maximum number of pumps. ")
                 continue
@@ -166,7 +175,9 @@ def get_order(employee_id):
             continue
         break
 
-    order = [drink, size, milk, flavor, pumps]
+    order = [emp_id, drink, size, milk, flavor, pumps]
+    print(order)
+    return order
 
 
 def confirm_employee(employee_record):
@@ -219,7 +230,8 @@ def confirm_employee(employee_record):
     #
     # 💾 Saving:
     # If anything changes, update the employee and/or order storage so it is available next time.
-    return employee_nbr, office, extension, f_name, l_name, allergies
+
+    return employee_record
 
 
 def print_label(order, employee):
@@ -239,8 +251,8 @@ def main():
     # emp_record is a dictionary
     emp_record = get_employee()
     emp_id = emp_record["employee_nbr"]
-    order = get_order(emp_id)
     emp_record = confirm_employee(emp_record)
+    order = get_order(emp_record)
 
 
 # ▶️ Start the program by calling main().
