@@ -15,8 +15,18 @@ We are using stubs (`pass`) plus comments to plan the program first.
 # 📌 CONSTANTS
 # A constant is a value we do not plan to change while the program runs.
 # We use ALL CAPS for constants so they are easy to spot.
-MILK = ("Whole", "2%", "Skim", "Oat", "Soy", "Coconut", "None")
-ROAST = ("Dark", "Light", "DeCaff")
+MILKS = ("Whole", "2%", "Skim", "Oat", "Soy", "Coconut", "None")
+DRINK_TYPE = ("Americano", "Drip", "Latte", "Caffe au Lait", "Matcha", "Tea")
+SIZES = ("Large", "Medium", "Small")
+FLAVORS = (
+    "Caramel",
+    "Vanilla",
+    "Chocolate",
+    "Seasonal",
+    "Sugar Free Caramel",
+    "Sugar Free Vanilla",
+    "None",
+)
 
 # ℹ️ info: Tuples are a fixed menu of choices (we do not add/remove options while running).
 
@@ -72,9 +82,91 @@ def get_order(employee_id):
     # 3) Ask if they want to repeat an order number.
     # 4) If not repeating, display the menu and collect new choices (milk, roast, size, etc.).
     #
-    # ✅ Return value:
-    # Return an "order" object (for beginners, this could be a string, tuple, list, or dict).
-    pass
+    clear_screen()
+    while True:
+        count = 1
+        for drink in DRINK_TYPE:
+            print(f"{count}.   {drink}")
+            count += 1
+        try:
+            type = int(
+                input("Please enter the number for the type of drink you want:  ")
+            ).strip()
+        except ValueError:
+            input(
+                f"Please enter a number (1-{DRINK_TYPE.len()}). Press Enter to continue..."
+            )
+            continue
+        break
+
+    clear_screen()
+    while True:
+        count = 1
+        for size in SIZES:
+            print(f"{count}.   {size}")
+            count += 1
+        try:
+            size = int(
+                input("Please enter the number for the size of drink you want:  ")
+            ).strip()
+        except ValueError:
+            input(
+                f"Please enter a number (1-{SIZES.len()}). Press Enter to continue..."
+            )
+            continue
+        size = SIZES[count - 1]
+        break
+
+    clear_screen()
+    while True:
+        count = 1
+        for milk in MILKS:
+            print(f"{count}.   {milk}")
+            count += 1
+        try:
+            milk = int(
+                input("Please enter the number for the milk you want:  ")
+            ).strip()
+        except ValueError:
+            input(
+                f"Please enter a number (1-{MILKS.len()}). Press Enter to continue..."
+            )
+            continue
+        milk = MILKS[count - 1]
+        break
+
+    clear_screen()
+    while True:
+        count = 1
+        for flavor in FLAVORS:
+            print(f"{count}.   {flavor}")
+            count += 1
+        try:
+            flavor = int(
+                input("Please enter the number for the flavor you want:  ")
+            ).strip()
+        except ValueError:
+            input(
+                f"Please enter a number (1-{FLAVORS.len()}). Press Enter to continue..."
+            )
+            continue
+        flavor = FLAVORS[count - 1]
+        break
+
+    while True:
+        try:
+            pumps = int(
+                input("Please enter the number of pumps you want (ten cents each):  ")
+            ).strip()
+            if pumps > 10:
+                print("Ten is the maximum number of pumps. ")
+                continue
+        except ValueError:
+            input(f"Please enter a number (0-10). Press Enter to continue...")
+            continue
+        break
+
+    order = [drink, size, milk, flavor, pumps]
 
 
 def confirm_employee(employee_record):
