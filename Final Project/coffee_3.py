@@ -21,7 +21,7 @@ FLAVORS = (
     "Seasonal",
     "Sugar Free Caramel",
     "Sugar Free Vanilla",
-    "None",
+    "None"
 )
 
 # ℹ️ info: Tuples are a fixed menu of choices (we do not add/remove options while running).
