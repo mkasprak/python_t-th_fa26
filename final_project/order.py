@@ -1,4 +1,5 @@
 import os
+import datetime
 
 # 📌 CONSTANTS  TODO We will replace by reading into from a text file
 # A constant is a value we do not plan to change while the program runs.
@@ -24,17 +25,7 @@ def clear_screen():
 
 
 def get_order(emp_id):
-    # 🧠 STEP 2: Collect a drink order
-    # Inputs:
-    # - emp_id: the employee's ID number (so we can connect the order to a person)
-    # ✅ Return: an order (right now we store it as a list)
-    # 🧠 STEP 2: Get an order for this employee
-    # Plan:
-    # 1) Check if this employee has prior orders saved.
-    # 2) If yes, list the 5 most recent orders (number them 1–5).
-    # 3) Ask if they want to repeat an order number.
-    # 4) If not repeating, display the menu and collect new choices (milk, roast, size, etc.).
-    #
+
     clear_screen()
     while True:
         # 🖨️ Display the menu with numbers starting at 1 (friendlier for humans)
@@ -157,12 +148,16 @@ def get_order(emp_id):
 
     # ℹ️ info: This order is stored as a list. Each position has a meaning:
     # order[0]=emp_id, order[1]=drink, order[2]=size, order[3]=milk, order[4]=flavor, order[5]=pumps
-    order = [emp_id, drink, size, milk, flavor, pumps]
+    right_now = datetime.datetime.now
+    order = [right_now, drink, size, milk, flavor, pumps]
 
-    return order
+    with open("order_history", "a") as f:
+        f.write(f"{id}:{order}\n")
+
+    return
 
 
-def confirm_order(order):
+def confirm_order():
     # 🧠 STEP 3: Confirm an order (show it back to the user and allow edits)
     # ✅ Return: the updated order list
     while True:
