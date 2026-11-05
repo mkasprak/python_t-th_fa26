@@ -1,22 +1,6 @@
 import os
 import datetime
-
-# 📌 CONSTANTS  TODO We will replace by reading into from a text file
-# A constant is a value we do not plan to change while the program runs.
-# We use ALL CAPS for constants so they are easy to spot.
-# 📌 CONSTANTS: these are our "menu options" (fixed choices) for the user to pick from.
-MILKS = ("Whole", "2%", "Skim", "Oat", "Soy", "Coconut", "None")
-DRINK_TYPE = ("Americano", "Drip", "Latte", "Caffe au Lait", "Matcha", "Tea")
-SIZES = ("Large", "Medium", "Small")
-FLAVORS = (
-    "Caramel",
-    "Vanilla",
-    "Chocolate",
-    "Seasonal",
-    "Sugar Free Caramel",
-    "Sugar Free Vanilla",
-    "None",
-)
+import read_menu
 
 
 def clear_screen():
@@ -25,17 +9,16 @@ def clear_screen():
 
 
 def get_order(emp_id):
+    menu_items = read_menu.read_menu()
+    coffee, prices, milks, flavors, sizes = read_menu.split_into_variables(menu_items)
 
     clear_screen()
+    list_length = read_menu.print_coffee(coffee)
     while True:
-        # 🖨️ Display the menu with numbers starting at 1 (friendlier for humans)
-        count = 1
-        for drink in DRINK_TYPE:
-            print(f"{count}.   {drink}")
-            count += 1
+        # 🖨️ Display the menu with numbers starting at 1 (friendlier
+
         try:
-            # ⚠️ pitfall: `type` is also the name of a built-in Python function.
-            # Using it as a variable works, but can be confusing. (A clearer name: drink_choice)
+
             type = int(
                 input(
                     "Please enter the number for the type of drink you want:  "
@@ -45,18 +28,16 @@ def get_order(emp_id):
             # 🛡️ Error handling: if they type letters instead of a number, int(...) fails.
             # ⚠️ Common bug: use len(DRINK_TYPE), not DRINK_TYPE.len()
             input(
-                f"Please enter a number (1-{len(DRINK_TYPE)}). Press Enter to continue..."
+                f"Please enter a number (1-{list_length}). Press Enter to continue..."
             )
             continue
-        if type < 1 or type > len(DRINK_TYPE):
-            input(
-                f"Please enter a number (1-{len(DRINK_TYPE)}). Press Enter to continue..."
-            )
+        if type < 1 or type > list_length:
+            input(f"Please enter a number (list_Length). Press Enter to continue...")
             continue
         # ℹ️ info: We subtract 1 because users choose 1..N, but Python indexes are 0..N-1.
-        drink = DRINK_TYPE[type - 1]
+        drink = coffee[type - 1]
         break
-
+    read_menu.print_sizes(sizes, prices)
     clear_screen()
     while True:
         # 🖨️ Display the size menu
