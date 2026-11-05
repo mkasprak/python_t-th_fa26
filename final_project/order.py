@@ -160,6 +160,7 @@ def get_order(emp_id):
 def confirm_order():
     # 🧠 STEP 3: Confirm an order (show it back to the user and allow edits)
     # ✅ Return: the updated order list
+    order = []  # read in order
     while True:
         clear_screen()
         count = 1
